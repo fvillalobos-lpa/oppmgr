@@ -2,5 +2,5 @@
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
   </Folder>
-  <Project Path="WinFormsApp1.vbproj" />
+  <Project Path="OppMgr.vbproj" />
 </Solution>
