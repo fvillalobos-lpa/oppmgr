@@ -23,18 +23,27 @@ Partial Class frmNewOpp
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Label1 = New Label()
-        ComboBox1 = New ComboBox()
+        cboAccounts = New ComboBox()
         Button1 = New Button()
         Label2 = New Label()
         Label3 = New Label()
         txtFolderPath = New TextBox()
-        Button2 = New Button()
-        TextBox1 = New TextBox()
+        btnBrowseforFolder = New Button()
+        txtOppName = New TextBox()
         Label4 = New Label()
-        TextBox2 = New TextBox()
-        Button3 = New Button()
+        txtCRMurl = New TextBox()
+        btnGotoURL = New Button()
         Label5 = New Label()
-        TextBox3 = New TextBox()
+        txtOppID = New TextBox()
+        Button4 = New Button()
+        Label6 = New Label()
+        dtpOppCreationDate = New DateTimePicker()
+        Label7 = New Label()
+        cboOppStage = New ComboBox()
+        Label8 = New Label()
+        txtOppAmount = New TextBox()
+        DateTimePicker1 = New DateTimePicker()
+        Label9 = New Label()
         SuspendLayout()
         ' 
         ' Label1
@@ -46,14 +55,14 @@ Partial Class frmNewOpp
         Label1.TabIndex = 0
         Label1.Text = "Account"
         ' 
-        ' ComboBox1
+        ' cboAccounts
         ' 
-        ComboBox1.FormattingEnabled = True
-        ComboBox1.Location = New Point(141, 27)
-        ComboBox1.Margin = New Padding(3, 2, 3, 2)
-        ComboBox1.Name = "ComboBox1"
-        ComboBox1.Size = New Size(554, 23)
-        ComboBox1.TabIndex = 1
+        cboAccounts.FormattingEnabled = True
+        cboAccounts.Location = New Point(141, 27)
+        cboAccounts.Margin = New Padding(3, 2, 3, 2)
+        cboAccounts.Name = "cboAccounts"
+        cboAccounts.Size = New Size(554, 23)
+        cboAccounts.TabIndex = 1
         ' 
         ' Button1
         ' 
@@ -68,11 +77,11 @@ Partial Class frmNewOpp
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(96, 58)
+        Label2.Location = New Point(70, 58)
         Label2.Name = "Label2"
-        Label2.Size = New Size(39, 15)
+        Label2.Size = New Size(65, 15)
         Label2.TabIndex = 3
-        Label2.Text = "Name"
+        Label2.Text = "Opp Name"
         ' 
         ' Label3
         ' 
@@ -90,80 +99,164 @@ Partial Class frmNewOpp
         txtFolderPath.Size = New Size(753, 23)
         txtFolderPath.TabIndex = 5
         ' 
-        ' Button2
+        ' btnBrowseforFolder
         ' 
-        Button2.Location = New Point(899, 86)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(111, 21)
-        Button2.TabIndex = 6
-        Button2.Text = "Browse..."
-        Button2.UseVisualStyleBackColor = True
+        btnBrowseforFolder.Location = New Point(899, 86)
+        btnBrowseforFolder.Name = "btnBrowseforFolder"
+        btnBrowseforFolder.Size = New Size(111, 21)
+        btnBrowseforFolder.TabIndex = 6
+        btnBrowseforFolder.Text = "Browse..."
+        btnBrowseforFolder.UseVisualStyleBackColor = True
         ' 
-        ' TextBox1
+        ' txtOppName
         ' 
-        TextBox1.Location = New Point(140, 55)
-        TextBox1.Name = "TextBox1"
-        TextBox1.Size = New Size(556, 23)
-        TextBox1.TabIndex = 7
+        txtOppName.Location = New Point(140, 55)
+        txtOppName.Name = "txtOppName"
+        txtOppName.Size = New Size(556, 23)
+        txtOppName.TabIndex = 7
         ' 
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New Point(77, 119)
+        Label4.Location = New Point(77, 114)
         Label4.Name = "Label4"
         Label4.Size = New Size(57, 15)
         Label4.TabIndex = 8
         Label4.Text = "CRM URL"
         ' 
-        ' TextBox2
+        ' txtCRMurl
         ' 
-        TextBox2.Location = New Point(140, 116)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(753, 23)
-        TextBox2.TabIndex = 9
+        txtCRMurl.Location = New Point(140, 111)
+        txtCRMurl.Name = "txtCRMurl"
+        txtCRMurl.Size = New Size(753, 23)
+        txtCRMurl.TabIndex = 9
         ' 
-        ' Button3
+        ' btnGotoURL
         ' 
-        Button3.Location = New Point(899, 116)
-        Button3.Name = "Button3"
-        Button3.Size = New Size(111, 21)
-        Button3.TabIndex = 6
-        Button3.Text = "Go to URL"
-        Button3.UseVisualStyleBackColor = True
+        btnGotoURL.Location = New Point(899, 116)
+        btnGotoURL.Name = "btnGotoURL"
+        btnGotoURL.Size = New Size(111, 21)
+        btnGotoURL.TabIndex = 6
+        btnGotoURL.Text = "Go to URL"
+        btnGotoURL.UseVisualStyleBackColor = True
         ' 
         ' Label5
         ' 
         Label5.AutoSize = True
         Label5.Location = New Point(827, 32)
         Label5.Name = "Label5"
-        Label5.Size = New Size(66, 15)
+        Label5.Size = New Size(44, 15)
         Label5.TabIndex = 10
-        Label5.Text = "Account ID"
+        Label5.Text = "Opp ID"
         ' 
-        ' TextBox3
+        ' txtOppID
         ' 
-        TextBox3.Location = New Point(899, 29)
-        TextBox3.Name = "TextBox3"
-        TextBox3.Size = New Size(236, 23)
-        TextBox3.TabIndex = 11
+        txtOppID.Location = New Point(899, 29)
+        txtOppID.Name = "txtOppID"
+        txtOppID.Size = New Size(236, 23)
+        txtOppID.TabIndex = 11
+        ' 
+        ' Button4
+        ' 
+        Button4.Location = New Point(994, 329)
+        Button4.Name = "Button4"
+        Button4.Size = New Size(127, 27)
+        Button4.TabIndex = 12
+        Button4.Text = "Create New Opp"
+        Button4.UseVisualStyleBackColor = True
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Location = New Point(56, 143)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(79, 15)
+        Label6.TabIndex = 13
+        Label6.Text = "Creation Date"
+        ' 
+        ' dtpOppCreationDate
+        ' 
+        dtpOppCreationDate.Location = New Point(141, 140)
+        dtpOppCreationDate.Name = "dtpOppCreationDate"
+        dtpOppCreationDate.Size = New Size(200, 23)
+        dtpOppCreationDate.TabIndex = 15
+        ' 
+        ' Label7
+        ' 
+        Label7.AutoSize = True
+        Label7.Location = New Point(99, 171)
+        Label7.Name = "Label7"
+        Label7.Size = New Size(36, 15)
+        Label7.TabIndex = 16
+        Label7.Text = "Stage"
+        ' 
+        ' cboOppStage
+        ' 
+        cboOppStage.FormattingEnabled = True
+        cboOppStage.Location = New Point(140, 168)
+        cboOppStage.Margin = New Padding(3, 2, 3, 2)
+        cboOppStage.Name = "cboOppStage"
+        cboOppStage.Size = New Size(262, 23)
+        cboOppStage.TabIndex = 17
+        ' 
+        ' Label8
+        ' 
+        Label8.AutoSize = True
+        Label8.Location = New Point(56, 196)
+        Label8.Name = "Label8"
+        Label8.Size = New Size(84, 15)
+        Label8.TabIndex = 18
+        Label8.Text = "Amount (USD)"
+        ' 
+        ' txtOppAmount
+        ' 
+        txtOppAmount.Location = New Point(141, 196)
+        txtOppAmount.Name = "txtOppAmount"
+        txtOppAmount.Size = New Size(261, 23)
+        txtOppAmount.TabIndex = 19
+        ' 
+        ' DateTimePicker1
+        ' 
+        DateTimePicker1.Location = New Point(516, 140)
+        DateTimePicker1.Name = "DateTimePicker1"
+        DateTimePicker1.Size = New Size(200, 23)
+        DateTimePicker1.TabIndex = 21
+        ' 
+        ' Label9
+        ' 
+        Label9.AutoSize = True
+        Label9.Location = New Point(431, 143)
+        Label9.Name = "Label9"
+        Label9.Size = New Size(84, 15)
+        Label9.TabIndex = 20
+        Label9.Text = "Est. Close Date"
         ' 
         ' frmNewOpp
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1147, 368)
-        Controls.Add(TextBox3)
+        Controls.Add(DateTimePicker1)
+        Controls.Add(Label9)
+        Controls.Add(txtOppAmount)
+        Controls.Add(Label8)
+        Controls.Add(cboOppStage)
+        Controls.Add(Label7)
+        Controls.Add(dtpOppCreationDate)
+        Controls.Add(Label6)
+        Controls.Add(Button4)
+        Controls.Add(txtOppID)
         Controls.Add(Label5)
-        Controls.Add(TextBox2)
+        Controls.Add(txtCRMurl)
         Controls.Add(Label4)
-        Controls.Add(TextBox1)
-        Controls.Add(Button3)
-        Controls.Add(Button2)
+        Controls.Add(txtOppName)
+        Controls.Add(btnGotoURL)
+        Controls.Add(btnBrowseforFolder)
         Controls.Add(txtFolderPath)
         Controls.Add(Label3)
         Controls.Add(Label2)
         Controls.Add(Button1)
-        Controls.Add(ComboBox1)
+        Controls.Add(cboAccounts)
         Controls.Add(Label1)
         Margin = New Padding(3, 2, 3, 2)
         Name = "frmNewOpp"
@@ -173,16 +266,25 @@ Partial Class frmNewOpp
     End Sub
 
     Friend WithEvents Label1 As Label
-    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents cboAccounts As ComboBox
     Friend WithEvents Button1 As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents txtFolderPath As TextBox
-    Friend WithEvents Button2 As Button
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents btnBrowseforFolder As Button
+    Friend WithEvents txtOppName As TextBox
     Friend WithEvents Label4 As Label
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents Button3 As Button
+    Friend WithEvents txtCRMurl As TextBox
+    Friend WithEvents btnGotoURL As Button
     Friend WithEvents Label5 As Label
-    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents txtOppID As TextBox
+    Friend WithEvents Button4 As Button
+    Friend WithEvents Label6 As Label
+    Friend WithEvents dtpOppCreationDate As DateTimePicker
+    Friend WithEvents Label7 As Label
+    Friend WithEvents cboOppStage As ComboBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents txtOppAmount As TextBox
+    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents Label9 As Label
 End Class
