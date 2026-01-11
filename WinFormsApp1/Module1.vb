@@ -1,4 +1,5 @@
 ﻿Imports System.Data.Odbc
+Imports System.Runtime.InteropServices
 
 Module Module1
 
@@ -25,3 +26,36 @@ Module Module1
         End Property
     End Class
 End Module
+
+
+
+
+Public Class NativeMethods
+    <StructLayout(LayoutKind.Sequential)>
+    Public Structure SHFILEINFO
+        Public hIcon As IntPtr
+        Public iIcon As Integer
+        Public dwAttributes As UInteger
+        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=260)>
+        Public szDisplayName As String
+        <MarshalAs(UnmanagedType.ByValTStr, SizeConst:=80)>
+        Public szTypeName As String
+    End Structure
+
+    <DllImport("shell32.dll", CharSet:=CharSet.Auto)>
+    Public Shared Function SHGetFileInfo(
+        ByVal pszPath As String,
+        ByVal dwFileAttributes As UInteger,
+        ByRef psfi As SHFILEINFO,
+        ByVal cbFileInfo As UInteger,
+        ByVal uFlags As UInteger) As IntPtr
+    End Function
+
+    <DllImport("user32.dll", SetLastError:=True)>
+    Public Shared Function DestroyIcon(hIcon As IntPtr) As Boolean
+    End Function
+
+    Public Const SHGFI_ICON As UInteger = &H100
+    Public Const SHGFI_SMALLICON As UInteger = &H1
+End Class
+

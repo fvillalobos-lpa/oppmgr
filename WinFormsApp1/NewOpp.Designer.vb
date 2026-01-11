@@ -35,14 +35,14 @@ Partial Class frmNewOpp
         btnGotoURL = New Button()
         Label5 = New Label()
         txtOppID = New TextBox()
-        Button4 = New Button()
+        btnCreaterOpp = New Button()
         Label6 = New Label()
         dtpOppCreationDate = New DateTimePicker()
         Label7 = New Label()
         cboOppStage = New ComboBox()
         Label8 = New Label()
         txtOppAmount = New TextBox()
-        DateTimePicker1 = New DateTimePicker()
+        dpOppEstCloseDate = New DateTimePicker()
         Label9 = New Label()
         SuspendLayout()
         ' 
@@ -156,14 +156,14 @@ Partial Class frmNewOpp
         txtOppID.Size = New Size(236, 23)
         txtOppID.TabIndex = 11
         ' 
-        ' Button4
+        ' btnCreaterOpp
         ' 
-        Button4.Location = New Point(994, 329)
-        Button4.Name = "Button4"
-        Button4.Size = New Size(127, 27)
-        Button4.TabIndex = 12
-        Button4.Text = "Create New Opp"
-        Button4.UseVisualStyleBackColor = True
+        btnCreaterOpp.Location = New Point(994, 329)
+        btnCreaterOpp.Name = "btnCreaterOpp"
+        btnCreaterOpp.Size = New Size(127, 27)
+        btnCreaterOpp.TabIndex = 12
+        btnCreaterOpp.Text = "Create New Opp"
+        btnCreaterOpp.UseVisualStyleBackColor = True
         ' 
         ' Label6
         ' 
@@ -215,12 +215,12 @@ Partial Class frmNewOpp
         txtOppAmount.Size = New Size(261, 23)
         txtOppAmount.TabIndex = 19
         ' 
-        ' DateTimePicker1
+        ' dpOppEstCloseDate
         ' 
-        DateTimePicker1.Location = New Point(516, 140)
-        DateTimePicker1.Name = "DateTimePicker1"
-        DateTimePicker1.Size = New Size(200, 23)
-        DateTimePicker1.TabIndex = 21
+        dpOppEstCloseDate.Location = New Point(516, 140)
+        dpOppEstCloseDate.Name = "dpOppEstCloseDate"
+        dpOppEstCloseDate.Size = New Size(200, 23)
+        dpOppEstCloseDate.TabIndex = 21
         ' 
         ' Label9
         ' 
@@ -236,7 +236,7 @@ Partial Class frmNewOpp
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1147, 368)
-        Controls.Add(DateTimePicker1)
+        Controls.Add(dpOppEstCloseDate)
         Controls.Add(Label9)
         Controls.Add(txtOppAmount)
         Controls.Add(Label8)
@@ -244,7 +244,7 @@ Partial Class frmNewOpp
         Controls.Add(Label7)
         Controls.Add(dtpOppCreationDate)
         Controls.Add(Label6)
-        Controls.Add(Button4)
+        Controls.Add(btnCreaterOpp)
         Controls.Add(txtOppID)
         Controls.Add(Label5)
         Controls.Add(txtCRMurl)
@@ -278,13 +278,13 @@ Partial Class frmNewOpp
     Friend WithEvents btnGotoURL As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents txtOppID As TextBox
-    Friend WithEvents Button4 As Button
+    Friend WithEvents btnCreaterOpp As Button
     Friend WithEvents Label6 As Label
     Friend WithEvents dtpOppCreationDate As DateTimePicker
     Friend WithEvents Label7 As Label
     Friend WithEvents cboOppStage As ComboBox
     Friend WithEvents Label8 As Label
     Friend WithEvents txtOppAmount As TextBox
-    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents dpOppEstCloseDate As DateTimePicker
     Friend WithEvents Label9 As Label
 End Class
