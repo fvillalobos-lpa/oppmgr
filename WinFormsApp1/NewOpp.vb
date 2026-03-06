@@ -39,7 +39,7 @@ Public Class frmNewOpp
         dtpOppCreationDate.Value = DateTime.Now
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnBrowseforFolder.Click, btnGotoURL.Click
+    Private Sub btnBrowseforFolder_Click(sender As Object, e As EventArgs) Handles btnBrowseforFolder.Click, btnGotoURL.Click
         ' Create the dialog
         Using fbd As New FolderBrowserDialog
             fbd.Description = "Select a folder"
@@ -125,6 +125,7 @@ Public Class frmNewOpp
                     End Using
 
                     MessageBox.Show("New opportunity created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    btnCreaterOpp.Enabled = False
                 Else
                     MessageBox.Show("No records were inserted.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
