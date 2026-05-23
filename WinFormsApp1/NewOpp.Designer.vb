@@ -35,7 +35,7 @@ Partial Class frmNewOpp
         btnGotoURL = New Button()
         Label5 = New Label()
         txtOppID = New TextBox()
-        btnCreaterOpp = New Button()
+        btnCreateOpp = New Button()
         Label6 = New Label()
         dtpOppCreationDate = New DateTimePicker()
         Label7 = New Label()
@@ -156,14 +156,14 @@ Partial Class frmNewOpp
         txtOppID.Size = New Size(236, 23)
         txtOppID.TabIndex = 11
         ' 
-        ' btnCreaterOpp
+        ' btnCreateOpp
         ' 
-        btnCreaterOpp.Location = New Point(994, 329)
-        btnCreaterOpp.Name = "btnCreaterOpp"
-        btnCreaterOpp.Size = New Size(127, 27)
-        btnCreaterOpp.TabIndex = 12
-        btnCreaterOpp.Text = "Create New Opp"
-        btnCreaterOpp.UseVisualStyleBackColor = True
+        btnCreateOpp.Location = New Point(994, 329)
+        btnCreateOpp.Name = "btnCreateOpp"
+        btnCreateOpp.Size = New Size(127, 27)
+        btnCreateOpp.TabIndex = 12
+        btnCreateOpp.Text = "Create New Opp"
+        btnCreateOpp.UseVisualStyleBackColor = True
         ' 
         ' Label6
         ' 
@@ -244,7 +244,7 @@ Partial Class frmNewOpp
         Controls.Add(Label7)
         Controls.Add(dtpOppCreationDate)
         Controls.Add(Label6)
-        Controls.Add(btnCreaterOpp)
+        Controls.Add(btnCreateOpp)
         Controls.Add(txtOppID)
         Controls.Add(Label5)
         Controls.Add(txtCRMurl)
@@ -278,7 +278,7 @@ Partial Class frmNewOpp
     Friend WithEvents btnGotoURL As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents txtOppID As TextBox
-    Friend WithEvents btnCreaterOpp As Button
+    Friend WithEvents btnCreateOpp As Button
     Friend WithEvents Label6 As Label
     Friend WithEvents dtpOppCreationDate As DateTimePicker
     Friend WithEvents Label7 As Label

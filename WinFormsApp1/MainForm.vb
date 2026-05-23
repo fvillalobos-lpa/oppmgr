@@ -57,8 +57,17 @@ Public Class FrmMain
 
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btnNewOpp.Click
-        frmNewOpp.Show()
+    Private Sub btnNewOpp_Click(sender As Object, e As EventArgs) Handles btnNewOpp.Click
+
+
+        Dim selectedAccountId As Integer = 0
+        If cboCriteriaList.SelectedValue IsNot Nothing AndAlso Integer.TryParse(cboCriteriaList.SelectedValue.ToString(), selectedAccountId) Then
+            Dim newOppForm As New frmNewOpp()
+            newOppForm.SelectedAccountId = selectedAccountId
+            newOppForm.ShowDialog()
+        Else
+            MessageBox.Show("Please select an account before creating a new opportunity.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
     End Sub
 
     Private Sub LoadOpportunitiesForAccount(accountId As Integer)
