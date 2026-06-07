@@ -11,5 +11,20 @@
     <Setting Name="LastAccountId" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="DB2Host" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud</Value>
+    </Setting>
+    <Setting Name="DB2Port" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">32304</Value>
+    </Setting>
+    <Setting Name="DB2Database" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">bludb</Value>
+    </Setting>
+    <Setting Name="DB2Uid" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">plm02017</Value>
+    </Setting>
+    <Setting Name="DB2Pwd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SyjXaXAOjtIQaUHt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

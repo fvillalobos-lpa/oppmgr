@@ -89,6 +89,52 @@ Namespace My
                 Me("LastAccountId") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1bc1829-6f45-4cd4-bef4-10cf081900bf.c1ogj3sd0tgtu0lqde00.databases.appdomain.clou"& _ 
+            "d")>  _
+        Public ReadOnly Property DB2Host() As String
+            Get
+                Return CType(Me("DB2Host"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("32304")>  _
+        Public ReadOnly Property DB2Port() As String
+            Get
+                Return CType(Me("DB2Port"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("bludb")>  _
+        Public ReadOnly Property DB2Database() As String
+            Get
+                Return CType(Me("DB2Database"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("plm02017")>  _
+        Public ReadOnly Property DB2Uid() As String
+            Get
+                Return CType(Me("DB2Uid"),String)
+            End Get
+        End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("SyjXaXAOjtIQaUHt")>  _
+        Public ReadOnly Property DB2Pwd() As String
+            Get
+                Return CType(Me("DB2Pwd"),String)
+            End Get
+        End Property
     End Class
 End Namespace
 
