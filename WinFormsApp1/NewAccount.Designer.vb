@@ -24,7 +24,7 @@ Partial Class frmNewAccount
     Private Sub InitializeComponent()
         Label1 = New Label()
         txtAccountName = New TextBox()
-        TextBox2 = New TextBox()
+        txtFullName = New TextBox()
         Label2 = New Label()
         Label3 = New Label()
         cboCountries = New ComboBox()
@@ -50,12 +50,12 @@ Partial Class frmNewAccount
         txtAccountName.Size = New Size(499, 23)
         txtAccountName.TabIndex = 1
         ' 
-        ' TextBox2
+        ' txtFullName
         ' 
-        TextBox2.Location = New Point(126, 83)
-        TextBox2.Name = "TextBox2"
-        TextBox2.Size = New Size(499, 23)
-        TextBox2.TabIndex = 3
+        txtFullName.Location = New Point(126, 83)
+        txtFullName.Name = "txtFullName"
+        txtFullName.Size = New Size(499, 23)
+        txtFullName.TabIndex = 3
         ' 
         ' Label2
         ' 
@@ -85,7 +85,7 @@ Partial Class frmNewAccount
         ' 
         ' SaveNewAccount
         ' 
-        SaveNewAccount.Location = New Point(631, 408)
+        SaveNewAccount.Location = New Point(631, 154)
         SaveNewAccount.Name = "SaveNewAccount"
         SaveNewAccount.Size = New Size(143, 25)
         SaveNewAccount.TabIndex = 6
@@ -121,14 +121,14 @@ Partial Class frmNewAccount
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(884, 450)
+        ClientSize = New Size(786, 191)
         Controls.Add(Label5)
         Controls.Add(txtAccountID)
         Controls.Add(Label4)
         Controls.Add(SaveNewAccount)
         Controls.Add(cboCountries)
         Controls.Add(Label3)
-        Controls.Add(TextBox2)
+        Controls.Add(txtFullName)
         Controls.Add(Label2)
         Controls.Add(txtAccountName)
         Controls.Add(Label1)
@@ -140,7 +140,7 @@ Partial Class frmNewAccount
 
     Friend WithEvents Label1 As Label
     Friend WithEvents txtAccountName As TextBox
-    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents txtFullName As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents cboCountries As ComboBox

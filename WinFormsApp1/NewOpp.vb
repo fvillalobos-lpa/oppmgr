@@ -1,9 +1,11 @@
 ﻿Imports System.Data.Odbc
-Imports IBM.Data.DB2
+
 
 Public Class frmNewOpp
-
+    <System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)>
     Public Property IsEditMode As Boolean
+
+    <System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)>
     Public Property OpportunityId As Integer
 
 
@@ -68,7 +70,7 @@ Public Class frmNewOpp
         cboOppStage.DisplayMember = "STAGE_NAME"
         cboOppStage.ValueMember = "STAGE_ID"
     End Sub
-    Private Sub btnBrowseforFolder_Click(sender As Object, e As EventArgs) Handles btnBrowseforFolder.Click, btnGotoURL.Click
+    Private Sub btnBrowseforFolder_Click(sender As Object, e As EventArgs) Handles btnBrowseforFolder.Click
         ' Create the dialog
         Using fbd As New FolderBrowserDialog
             fbd.Description = "Select a folder"

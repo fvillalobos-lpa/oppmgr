@@ -4,13 +4,45 @@ Imports System.Runtime.Intrinsics
 
 Public Class FrmMain
     Private _CurrentOpplocalPath As String
+    Private _IsRestoring As Boolean = False
+
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
         SetuplvOppFolder()
-        cboCriteria.SelectedIndex = 0
 
+        If My.Settings.LastOpportunityId > 0 Then
+            _IsRestoring = True
+
+            ' Restore criteria filter
+            cboCriteria.SelectedIndex = My.Settings.LastCriteriaIndex
+
+            ' Restore account selection
+            If My.Settings.LastAccountId > 0 Then
+                For Each item As Object In cboCriteriaList.Items
+                    Dim drv As DataRowView = TryCast(item, DataRowView)
+                    If drv IsNot Nothing AndAlso CInt(drv("ACCOUNT_ID")) = My.Settings.LastAccountId Then
+                        cboCriteriaList.SelectedItem = item
+                        Exit For
+                    End If
+                Next
+            End If
+
+            ' Restore opportunity selection
+            For Each item As Object In cboOpps.Items
+                Dim drv As DataRowView = TryCast(item, DataRowView)
+                If drv IsNot Nothing AndAlso CInt(drv("OPPORTUNITY_ID")) = My.Settings.LastOpportunityId Then
+                    cboOpps.SelectedItem = item
+                    Exit For
+                End If
+            Next
+
+            _IsRestoring = False
+            GetOppDataandFiles()
+        Else
+            cboCriteria.SelectedIndex = 0
+        End If
     End Sub
+
+
     Private Sub LoadOppsintoCombo()
         cboOpps.DataSource = Nothing
         cboOpps.Items.Clear()
@@ -36,6 +68,7 @@ Public Class FrmMain
     End Sub
 
     Private Sub SetuplvOppFolder()
+        If lvOppFolder.Columns.Count > 0 Then Exit Sub
         lvOppFolder.Columns.Add("Name", 200, HorizontalAlignment.Left)
         lvOppFolder.Columns.Add("Size", 80, HorizontalAlignment.Right)
         lvOppFolder.Columns.Add("Date Modified", 150, HorizontalAlignment.Left)
@@ -45,8 +78,24 @@ Public Class FrmMain
     End Sub
 
     Private Sub cboOpps_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboOpps.SelectedIndexChanged
+        If _IsRestoring Then Exit Sub
         GetOppDataandFiles()
 
+        Dim drv As DataRowView = TryCast(cboOpps.SelectedItem, DataRowView)
+        If drv IsNot Nothing Then
+            My.Settings.LastOpportunityId = CInt(drv("OPPORTUNITY_ID"))
+            My.Settings.LastCriteriaIndex = cboCriteria.SelectedIndex
+
+            Dim accountId As Integer = 0
+            If cboCriteriaList.SelectedValue IsNot Nothing Then
+                Dim raw = cboCriteriaList.SelectedValue
+                If TypeOf raw Is Integer Then
+                    accountId = CInt(raw)
+                End If
+            End If
+            My.Settings.LastAccountId = accountId
+            My.Settings.Save()
+        End If
     End Sub
 
 
@@ -61,10 +110,9 @@ Public Class FrmMain
     End Sub
 
     Private Sub btnNewOpp_Click(sender As Object, e As EventArgs) Handles btnNewOpp.Click
-
-        frmNewOpp.IsEditMode = False
         Dim selectedAccountId As Integer = CInt(cboCriteriaList.SelectedValue)
         Dim newOppForm As New frmNewOpp
+        newOppForm.IsEditMode = False
         newOppForm.OpportunityId = selectedAccountId
         newOppForm.btnCreateOpp.Text = "Create Opportunity"
         newOppForm.ShowDialog()
@@ -182,7 +230,7 @@ Public Class FrmMain
                 ' Add to ListView
                 lvOppFolder.Items.Add(item)
             Next
-            Application.DoEvents()
+
 
             ' Optionally load subfolders too
             For Each dirPath As String In IO.Directory.GetDirectories(_CurrentOpplocalPath)

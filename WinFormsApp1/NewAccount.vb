@@ -1,5 +1,5 @@
 ﻿Imports System.Data.Odbc
-Imports IBM.Data.DB2
+
 
 Public Class frmNewAccount
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -32,9 +32,10 @@ Public Class frmNewAccount
 
     Private Sub SaveNewAccount_Click(sender As Object, e As EventArgs) Handles SaveNewAccount.Click
         Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
-            Dim sql As String = "INSERT INTO ACCOUNTS (NAME, COUNTRY) VALUES (?, ?)"
+            Dim sql As String = "INSERT INTO ACCOUNTS (NAME, FULL_NAME, COUNTRY) VALUES (?, ?, ?)"
             Using cmd As New OdbcCommand(sql, conn)
                 cmd.Parameters.AddWithValue("@accountName", txtAccountName.Text)
+                cmd.Parameters.AddWithValue("@fullName", txtFullName.Text)
                 cmd.Parameters.AddWithValue("@country", cboCountries.SelectedItem.ToString())
                 cmd.ExecuteNonQuery()
             End Using
