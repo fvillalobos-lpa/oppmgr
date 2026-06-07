@@ -1,82 +1,72 @@
 ﻿Imports System.Data.Odbc
 Imports IBM.Data.DB2
-Imports System.ComponentModel
 
 Public Class frmNewOpp
 
-    <Browsable(False), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
     Public Property IsEditMode As Boolean
-
-    <Browsable(False), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
     Public Property OpportunityId As Integer
 
-    ' Optional initial account selection when creating a new opportunity
-    <Browsable(False), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
-    Public Property SelectedAccountId As Integer = 0
 
 
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnNewAccount.Click
         frmNewAccount.Show()
-        LoadAccountsCombo()
+        Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+            LoadAccountsCombo(conn)
+        End Using
     End Sub
+
 
     Private Sub frmNewOpp_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        LoadStagesCombo()
-        LoadAccountsCombo()
-        ' If an initial account was provided, select it (only when not editing)
-        If Not IsEditMode AndAlso SelectedAccountId > 0 Then
-            Try
-                cboAccounts.SelectedValue = SelectedAccountId
-            Catch
-                ' ignore if value not found
-            End Try
-        End If
-        If IsEditMode Then
-            Dim sql As String = "SELECT * FROM OPPORTUNITIES WHERE OPPORTUNITY_ID = ?"
-            Using cmd As New OdbcCommand(sql, Db2ConnectionManager.Connection)
-                cmd.Parameters.Add("?", OdbcType.Int).Value = OpportunityId
-                Using reader = cmd.ExecuteReader()
-                    If reader.Read() Then
-                        txtOppName.Text = reader("NAME").ToString()
-                        If Not IsDBNull(reader("ACCOUNT_ID")) Then
-                            cboAccounts.SelectedValue = CInt(reader("ACCOUNT_ID"))
-                        Else
-                            cboAccounts.SelectedIndex = -1   ' no selection
+        Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+            LoadStagesCombo(conn)
+            LoadAccountsCombo(conn)
+
+            If IsEditMode Then
+                MessageBox.Show("IsEditMode: " & IsEditMode.ToString() & " | OpportunityId: " & OpportunityId.ToString())
+                Dim sql As String = "SELECT * FROM OPPORTUNITIES WHERE OPPORTUNITY_ID = ?"
+                Using cmd As New OdbcCommand(sql, conn)
+                    cmd.Parameters.Add("?", OdbcType.Int).Value = OpportunityId
+                    Using reader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            txtOppName.Text = reader("NAME").ToString()
+                            If Not IsDBNull(reader("ACCOUNT_ID")) Then
+                                cboAccounts.SelectedValue = CInt(reader("ACCOUNT_ID"))
+                            Else
+                                cboAccounts.SelectedIndex = -1
+                            End If
+                            txtFolderPath.Text = reader("LOCAL_FOLDER").ToString()
+                            txtCRMurl.Text = reader("CRM_URL").ToString()
+                            dtpOppCreationDate.Value = CDate(reader("CREATION_DATE"))
+                            dpOppEstCloseDate.Value = CDate(reader("CLOSE_DATE"))
+                            If Not IsDBNull(reader("CURRENT_STAGE_ID")) Then
+                                cboOppStage.SelectedValue = CInt(reader("CURRENT_STAGE_ID"))
+                            Else
+                                cboOppStage.SelectedIndex = -1
+                            End If
+                            txtOppAmount.Text = reader("AMOUNT").ToString()
+                            txtOppID.Text = OpportunityId.ToString()
                         End If
-                        txtFolderPath.Text = reader("LOCAL_FOLDER").ToString()
-                        txtCRMurl.Text = reader("CRM_URL").ToString()
-                        dtpOppCreationDate.Value = CDate(reader("CREATION_DATE"))
-                        dpOppEstCloseDate.Value = CDate(reader("CLOSE_DATE"))
-                        If Not IsDBNull(reader("CURRENT_STAGE_ID")) Then
-                            cboOppStage.SelectedValue = CInt(reader("CURRENT_STAGE_ID"))
-                        Else
-                            cboOppStage.SelectedIndex = -1   ' no selection
-                        End If
-                        txtOppAmount.Text = reader("AMOUNT").ToString()
-                        txtOppID.Text = OpportunityId.ToString()
-                    End If
+                    End Using
                 End Using
-            End Using
-        End If
-
-
-        dtpOppCreationDate.Value = DateTime.Now
-        btnCreateOpp.Text = "Save"
-
-    End Sub
-    Private Sub LoadStagesCombo()
-        Dim sql As String = "SELECT STAGE_ID, STAGE_NAME FROM OPPORTUNITY_STAGES ORDER BY STAGE_ORDER"
-        Using cmd As New OdbcCommand(sql, Db2ConnectionManager.Connection)
-            Using reader = cmd.ExecuteReader()
-                Dim dt As New DataTable()
-                dt.Load(reader)
-
-                cboOppStage.DataSource = dt
-                cboOppStage.DisplayMember = "STAGE_NAME"
-                cboOppStage.ValueMember = "STAGE_ID"
-            End Using
+                btnCreateOpp.Text = "Save"
+            Else
+                dtpOppCreationDate.Value = DateTime.Now
+                btnCreateOpp.Text = "Create Opportunity"
+            End If
         End Using
+    End Sub
+
+
+    Private Sub LoadStagesCombo(conn As OdbcConnection)
+        Dim sql As String = "SELECT STAGE_ID, STAGE_NAME FROM OPPORTUNITY_STAGES ORDER BY STAGE_ORDER"
+        Dim dt As New DataTable()
+        Using da As New OdbcDataAdapter(sql, conn)
+            da.Fill(dt)
+        End Using
+        cboOppStage.DataSource = dt
+        cboOppStage.DisplayMember = "STAGE_NAME"
+        cboOppStage.ValueMember = "STAGE_ID"
     End Sub
     Private Sub btnBrowseforFolder_Click(sender As Object, e As EventArgs) Handles btnBrowseforFolder.Click, btnGotoURL.Click
         ' Create the dialog
@@ -92,26 +82,18 @@ Public Class frmNewOpp
         End Using
 
     End Sub
-    Private Sub LoadAccountsCombo()
-        ' Get the shared connection
-        Dim conn As OdbcConnection = Db2ConnectionManager.Connection
-
-        ' Query all accounts
+    Private Sub LoadAccountsCombo(conn As OdbcConnection)
         Dim sql As String = "SELECT ACCOUNT_ID, NAME FROM ACCOUNTS ORDER BY NAME"
-        Dim adapter As New OdbcDataAdapter(sql, conn)
         Dim dt As New DataTable()
-
-        adapter.Fill(dt)
-
-        ' Bind the DataTable to the ComboBox
+        Using da As New OdbcDataAdapter(sql, conn)
+            da.Fill(dt)
+        End Using
         cboAccounts.DataSource = dt
-        cboAccounts.DisplayMember = "NAME"   ' what the user sees
-        cboAccounts.ValueMember = "ACCOUNT_ID"               ' hidden ID value
+        cboAccounts.DisplayMember = "NAME"
+        cboAccounts.ValueMember = "ACCOUNT_ID"
     End Sub
 
     Private Sub btnCreateOpp_Click(sender As Object, e As EventArgs) Handles btnCreateOpp.Click
-        Dim sql As String
-        ' Validate minimal inputs (optional but recommended)
         If String.IsNullOrWhiteSpace(txtOppName.Text) Then
             MessageBox.Show("Opportunity name is required.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
@@ -125,60 +107,59 @@ Public Class frmNewOpp
             MessageBox.Show("Amount must be a valid number.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Exit Sub
         End If
+
         Try
-            ' INSERT without OPP_ID (Db2 generates it as IDENTITY)
+            Dim sql As String
             If IsEditMode Then
                 sql = "UPDATE OPPORTUNITIES " &
-          "SET NAME=?, ACCOUNT_ID=?, LOCAL_FOLDER=?, CRM_URL=?, CREATION_DATE=?, CLOSE_DATE=?, CURRENT_STAGE_ID=?, AMOUNT=?, OWNER_ID=? " &
-          "WHERE OPPORTUNITY_ID=?"
+                  "SET NAME=?, ACCOUNT_ID=?, LOCAL_FOLDER=?, CRM_URL=?, CREATION_DATE=?, CLOSE_DATE=?, CURRENT_STAGE_ID=?, AMOUNT=?, OWNER_ID=? " &
+                  "WHERE OPPORTUNITY_ID=?"
             Else
                 sql = "INSERT INTO OPPORTUNITIES " &
-          "(NAME, ACCOUNT_ID, LOCAL_FOLDER, CRM_URL, CREATION_DATE, CLOSE_DATE, CURRENT_STAGE_ID, AMOUNT, OWNER_ID) " &
-          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                  "(NAME, ACCOUNT_ID, LOCAL_FOLDER, CRM_URL, CREATION_DATE, CLOSE_DATE, CURRENT_STAGE_ID, AMOUNT, OWNER_ID) " &
+                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
             End If
 
+            Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+                Using cmd As New OdbcCommand(sql, conn)
+                    cmd.Parameters.Add("?", OdbcType.VarChar).Value = txtOppName.Text.Trim()
+                    cmd.Parameters.Add("?", OdbcType.Int).Value = CInt(cboAccounts.SelectedValue)
+                    cmd.Parameters.Add("?", OdbcType.VarChar).Value = txtFolderPath.Text.Trim()
+                    cmd.Parameters.Add("?", OdbcType.VarChar).Value = txtCRMurl.Text.Trim()
+                    cmd.Parameters.Add("?", OdbcType.Date).Value = dtpOppCreationDate.Value.Date
+                    cmd.Parameters.Add("?", OdbcType.Date).Value = dpOppEstCloseDate.Value.Date
+                    cmd.Parameters.Add("?", OdbcType.Int).Value =
+                    If(cboOppStage.SelectedValue Is Nothing, DBNull.Value, CInt(cboOppStage.SelectedValue))
+                    cmd.Parameters.Add("?", OdbcType.Decimal).Value = amountValue
+                    cmd.Parameters.Add("?", OdbcType.Int).Value = 1  ' OwnerID hardcoded
 
-
-            Using cmd As New OdbcCommand(sql, Db2ConnectionManager.Connection)
-                ' Map parameters to form controls
-                cmd.Parameters.Add("?", OdbcType.VarChar).Value = txtOppName.Text.Trim()
-                cmd.Parameters.Add("?", OdbcType.Int).Value = CInt(cboAccounts.SelectedValue)
-                cmd.Parameters.Add("?", OdbcType.VarChar).Value = txtFolderPath.Text.Trim()
-                cmd.Parameters.Add("?", OdbcType.VarChar).Value = txtCRMurl.Text.Trim()
-                cmd.Parameters.Add("?", OdbcType.Date).Value = dtpOppCreationDate.Value.Date
-                cmd.Parameters.Add("?", OdbcType.Date).Value = dpOppEstCloseDate.Value.Date
-                cmd.Parameters.Add("?", OdbcType.Int).Value =
-                If(cboOppStage.SelectedValue Is Nothing, DBNull.Value, CInt(cboOppStage.SelectedValue))
-                cmd.Parameters.Add("?", OdbcType.Decimal).Value = Decimal.Parse(txtOppAmount.Text)
-                cmd.Parameters.Add("?", OdbcType.Int).Value = 1   ' OwnerID hardcoded
-
-                If IsEditMode Then
-                    cmd.Parameters.Add("?", OdbcType.Int).Value = OpportunityId
-                End If
-                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
-                If rowsAffected > 0 Then
-                    If Not IsEditMode Then
-                        Using idCmd As New OdbcCommand("SELECT IDENTITY_VAL_LOCAL() FROM OPPORTUNITIES", Db2ConnectionManager.Connection)
-                            Dim result = idCmd.ExecuteScalar()
-                            If result IsNot Nothing Then
-                                txtOppID.Text = result.ToString()
-                            End If
-                        End Using
-                        MessageBox.Show("New opportunity created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        btnCreateOpp.Enabled = False
-                    Else
-                        MessageBox.Show("Opportunity details saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If IsEditMode Then
+                        cmd.Parameters.Add("?", OdbcType.Int).Value = OpportunityId
                     End If
-                Else
-                    MessageBox.Show("No records were inserted or updated.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                End If
+
+                    Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+                    If rowsAffected > 0 Then
+                        If Not IsEditMode Then
+                            Using idCmd As New OdbcCommand("VALUES IDENTITY_VAL_LOCAL()", conn)
+                                Dim result = idCmd.ExecuteScalar()
+                                If result IsNot Nothing Then
+                                    txtOppID.Text = result.ToString()
+                                End If
+                            End Using
+                            MessageBox.Show("New opportunity created successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            btnCreateOpp.Enabled = False
+                        Else
+                            MessageBox.Show("Opportunity details saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    Else
+                        MessageBox.Show("No records were inserted or updated.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    End If
+                End Using
             End Using
 
         Catch ex As Exception
-            MessageBox.Show("Error creating opportunity: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error saving opportunity: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-
-
     End Sub
 
 End Class

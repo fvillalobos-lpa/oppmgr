@@ -8,24 +8,27 @@ Public Class FrmMain
 
 
         SetuplvOppFolder()
+        cboCriteria.SelectedIndex = 0
 
     End Sub
     Private Sub LoadOppsintoCombo()
-
-
         cboOpps.DataSource = Nothing
         cboOpps.Items.Clear()
-        Dim query As String = "SELECT Opportunity_ID, Name, LOCAL_FOLDER, STAGE, CLOSE_DATE, AMOUNT FROM OPPORTUNITIES ORDER BY Name"
         Dim dt As New DataTable()
-
         Try
-            Using da As New OdbcDataAdapter(query, Db2ConnectionManager.Connection)
-                da.Fill(dt)
+            Dim query As String =
+            "SELECT o.OPPORTUNITY_ID, o.NAME, o.LOCAL_FOLDER, o.CLOSE_DATE, o.AMOUNT, s.STAGE_NAME AS STAGE " &
+            "FROM OPPORTUNITIES o " &
+            "LEFT JOIN OPPORTUNITY_STAGES s ON o.CURRENT_STAGE_ID = s.STAGE_ID " &
+            "ORDER BY o.NAME"
+            Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+                Using da As New OdbcDataAdapter(query, conn)
+                    da.Fill(dt)
+                End Using
             End Using
-
             cboOpps.DataSource = dt
-            cboOpps.DisplayMember = "Name"
-            cboOpps.ValueMember = "Opportunity_ID"
+            cboOpps.DisplayMember = "NAME"
+            cboOpps.ValueMember = "OPPORTUNITY_ID"
             SetuplvOppFolder()
         Catch ex As Exception
             MessageBox.Show("Error loading opportunities: " & ex.Message)
@@ -59,37 +62,30 @@ Public Class FrmMain
 
     Private Sub btnNewOpp_Click(sender As Object, e As EventArgs) Handles btnNewOpp.Click
 
-
-        Dim selectedAccountId As Integer = 0
-        If cboCriteriaList.SelectedValue IsNot Nothing AndAlso Integer.TryParse(cboCriteriaList.SelectedValue.ToString(), selectedAccountId) Then
-            Dim newOppForm As New frmNewOpp()
-            newOppForm.SelectedAccountId = selectedAccountId
-            newOppForm.ShowDialog()
-        Else
-            MessageBox.Show("Please select an account before creating a new opportunity.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+        frmNewOpp.IsEditMode = False
+        Dim selectedAccountId As Integer = CInt(cboCriteriaList.SelectedValue)
+        Dim newOppForm As New frmNewOpp
+        newOppForm.OpportunityId = selectedAccountId
+        newOppForm.btnCreateOpp.Text = "Create Opportunity"
+        newOppForm.ShowDialog()
     End Sub
 
     Private Sub LoadOpportunitiesForAccount(accountId As Integer)
         cboOpps.DataSource = Nothing
         cboOpps.Items.Clear()
-
-        Using cmd As New Odbc.OdbcCommand("
-        SELECT OPPORTUNITY_ID, NAME , LOCAL_FOLDER
-        FROM OPPORTUNITIES
-        WHERE ACCOUNT_ID = ?
-        ORDER BY NAME", Db2ConnectionManager.Connection)
-            cmd.Parameters.AddWithValue("@accountId", accountId)
-
-            Using da As New Odbc.OdbcDataAdapter(cmd)
-                Dim dt As New DataTable()
-                da.Fill(dt)
-
-                cboOpps.DataSource = dt
-                cboOpps.DisplayMember = "NAME"       ' visible text
-                cboOpps.ValueMember = "OPPORTUNITY_ID"      ' hidden key
+        Dim dt As New DataTable()
+        Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+            Using cmd As New OdbcCommand(
+            "SELECT OPPORTUNITY_ID, NAME, LOCAL_FOLDER FROM OPPORTUNITIES WHERE ACCOUNT_ID = ? ORDER BY NAME", conn)
+                cmd.Parameters.AddWithValue("@accountId", accountId)
+                Using da As New OdbcDataAdapter(cmd)
+                    da.Fill(dt)
+                End Using
             End Using
         End Using
+        cboOpps.DataSource = dt
+        cboOpps.DisplayMember = "NAME"
+        cboOpps.ValueMember = "OPPORTUNITY_ID"
     End Sub
 
 
@@ -123,22 +119,16 @@ Public Class FrmMain
     Private Sub LoadAccountsIntoCombo()
         cboCriteriaList.DataSource = Nothing
         cboCriteriaList.Items.Clear()
-
-        Using cmd As New Odbc.OdbcCommand("
-        SELECT ACCOUNT_ID, NAME 
-        FROM ACCOUNTS
-        ORDER BY NAME", Db2ConnectionManager.Connection)
-
-            Using da As New Odbc.OdbcDataAdapter(cmd)
-                Dim dt As New DataTable()
+        Dim dt As New DataTable()
+        Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+            Using da As New OdbcDataAdapter(
+            "SELECT ACCOUNT_ID, NAME FROM ACCOUNTS ORDER BY NAME", conn)
                 da.Fill(dt)
-
-                cboCriteriaList.DataSource = dt
-                cboCriteriaList.DisplayMember = "NAME"        ' visible text
-                cboCriteriaList.ValueMember = "ACCOUNT_ID"    ' hidden key
             End Using
         End Using
-
+        cboCriteriaList.DataSource = dt
+        cboCriteriaList.DisplayMember = "NAME"
+        cboCriteriaList.ValueMember = "ACCOUNT_ID"
     End Sub
     Private Sub GetOppDataandFiles()
         Dim drv As DataRowView = TryCast(cboOpps.SelectedItem, DataRowView)
@@ -235,8 +225,14 @@ Public Class FrmMain
     End Sub
 
     Private Sub btnDetails_Click(sender As Object, e As EventArgs) Handles btnDetails.Click
-        frmNewOpp.IsEditMode = True
-        frmNewOpp.OpportunityId = cboOpps.SelectedValue.ToString()
-        frmNewOpp.Show()
+        Dim editForm As New frmNewOpp
+        editForm.Text = "Update Opportunity"
+        editForm.IsEditMode = True
+        editForm.OpportunityId = CInt(cboOpps.SelectedValue)  ' Integer, not String
+        editForm.ShowDialog()  ' use ShowDialog, not Show
+    End Sub
+
+    Private Sub lvOppFolder_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvOppFolder.SelectedIndexChanged
+
     End Sub
 End Class

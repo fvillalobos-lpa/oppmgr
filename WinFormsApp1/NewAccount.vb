@@ -31,27 +31,19 @@ Public Class frmNewAccount
     End Sub
 
     Private Sub SaveNewAccount_Click(sender As Object, e As EventArgs) Handles SaveNewAccount.Click
+        Using conn As OdbcConnection = Db2ConnectionManager.GetConnection()
+            Dim sql As String = "INSERT INTO ACCOUNTS (NAME, COUNTRY) VALUES (?, ?)"
+            Using cmd As New OdbcCommand(sql, conn)
+                cmd.Parameters.AddWithValue("@accountName", txtAccountName.Text)
+                cmd.Parameters.AddWithValue("@country", cboCountries.SelectedItem.ToString())
+                cmd.ExecuteNonQuery()
+            End Using
 
-        Dim conn As OdbcConnection = Db2ConnectionManager.Connection
-
-
-        Dim sql As String = "INSERT INTO ACCOUNTS (NAME,  COUNTRY) VALUES (?, ?)"
-        Using cmd As New OdbcCommand(sql, conn)
-            cmd.Parameters.AddWithValue("@accountName", txtAccountName.Text)
-            'cmd.Parameters.AddWithValue("@fullName", txtFullName.Text)
-            cmd.Parameters.AddWithValue("@country", cboCountries.SelectedItem.ToString())
-            cmd.ExecuteNonQuery()
+            Using idCmd As New OdbcCommand("VALUES IDENTITY_VAL_LOCAL()", conn)
+                Dim newId As Integer = Convert.ToInt32(idCmd.ExecuteScalar())
+                txtAccountID.Text = newId.ToString()
+            End Using
         End Using
-        ' Retrieve the newly generated ID
-        Dim idSql As String = "SELECT IDENTITY_VAL_LOCAL() FROM SYSIBM.SYSDUMMY1"
-        Using idCmd As New OdbcCommand(idSql, conn)
-            Dim newId As Integer = Convert.ToInt32(idCmd.ExecuteScalar())
-            ' Update the label with the new code
-            txtAccountID.Text = newId.ToString()
-        End Using
-
-
-
     End Sub
 
 

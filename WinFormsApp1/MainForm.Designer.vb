@@ -39,17 +39,18 @@ Partial Class FrmMain
         ' cboOpps
         ' 
         cboOpps.FormattingEnabled = True
-        cboOpps.Location = New Point(59, 59)
+        cboOpps.Location = New Point(52, 44)
+        cboOpps.Margin = New Padding(3, 2, 3, 2)
         cboOpps.Name = "cboOpps"
-        cboOpps.Size = New Size(709, 28)
+        cboOpps.Size = New Size(621, 23)
         cboOpps.TabIndex = 0
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(11, 60)
+        Label1.Location = New Point(10, 45)
         Label1.Name = "Label1"
-        Label1.Size = New Size(38, 20)
+        Label1.Size = New Size(30, 15)
         Label1.TabIndex = 1
         Label1.Text = "Opp"
         ' 
@@ -57,70 +58,73 @@ Partial Class FrmMain
         ' 
         cboCriteria.FormattingEnabled = True
         cboCriteria.Items.AddRange(New Object() {"Customers", "Prospects", "Active ", "Closed ", "Won"})
-        cboCriteria.Location = New Point(59, 23)
+        cboCriteria.Location = New Point(52, 17)
+        cboCriteria.Margin = New Padding(3, 2, 3, 2)
         cboCriteria.Name = "cboCriteria"
-        cboCriteria.Size = New Size(212, 28)
+        cboCriteria.Size = New Size(186, 23)
         cboCriteria.TabIndex = 2
         ' 
         ' cboCriteriaList
         ' 
         cboCriteriaList.FormattingEnabled = True
-        cboCriteriaList.Location = New Point(278, 23)
+        cboCriteriaList.Location = New Point(243, 17)
+        cboCriteriaList.Margin = New Padding(3, 2, 3, 2)
         cboCriteriaList.Name = "cboCriteriaList"
-        cboCriteriaList.Size = New Size(491, 28)
+        cboCriteriaList.Size = New Size(430, 23)
         cboCriteriaList.TabIndex = 3
         ' 
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(11, 23)
+        Label2.Location = New Point(10, 17)
         Label2.Name = "Label2"
-        Label2.Size = New Size(42, 20)
+        Label2.Size = New Size(33, 15)
         Label2.TabIndex = 4
         Label2.Text = "Filter"
         ' 
         ' btnDetails
         ' 
-        btnDetails.Location = New Point(775, 60)
+        btnDetails.Location = New Point(678, 45)
+        btnDetails.Margin = New Padding(3, 2, 3, 2)
         btnDetails.Name = "btnDetails"
-        btnDetails.Size = New Size(114, 27)
+        btnDetails.Size = New Size(100, 20)
         btnDetails.TabIndex = 5
         btnDetails.Text = "Details..."
         btnDetails.UseVisualStyleBackColor = True
         ' 
         ' lvOppFolder
         ' 
-        lvOppFolder.Location = New Point(21, 141)
+        lvOppFolder.Location = New Point(18, 106)
+        lvOppFolder.Margin = New Padding(3, 2, 3, 2)
         lvOppFolder.Name = "lvOppFolder"
-        lvOppFolder.Size = New Size(1171, 327)
+        lvOppFolder.Size = New Size(1025, 246)
         lvOppFolder.TabIndex = 6
         lvOppFolder.UseCompatibleStateImageBehavior = False
         ' 
         ' btnNewOpp
         ' 
-        btnNewOpp.Location = New Point(895, 60)
+        btnNewOpp.Location = New Point(783, 45)
+        btnNewOpp.Margin = New Padding(3, 2, 3, 2)
         btnNewOpp.Name = "btnNewOpp"
-        btnNewOpp.Size = New Size(114, 27)
+        btnNewOpp.Size = New Size(100, 20)
         btnNewOpp.TabIndex = 7
         btnNewOpp.Text = "New..."
         btnNewOpp.UseVisualStyleBackColor = True
         ' 
         ' btnOpenLocalFolder
         ' 
-        btnOpenLocalFolder.Location = New Point(21, 100)
-        btnOpenLocalFolder.Margin = New Padding(3, 4, 3, 4)
+        btnOpenLocalFolder.Location = New Point(18, 75)
         btnOpenLocalFolder.Name = "btnOpenLocalFolder"
-        btnOpenLocalFolder.Size = New Size(159, 35)
+        btnOpenLocalFolder.Size = New Size(139, 26)
         btnOpenLocalFolder.TabIndex = 8
         btnOpenLocalFolder.Text = "Open Local Folder"
         btnOpenLocalFolder.UseVisualStyleBackColor = True
         ' 
         ' Button3
         ' 
-        Button3.Location = New Point(186, 100)
-        Button3.Margin = New Padding(3, 4, 3, 4)
+        Button3.Location = New Point(163, 75)
         Button3.Name = "Button3"
-        Button3.Size = New Size(159, 35)
+        Button3.Size = New Size(139, 26)
         Button3.TabIndex = 9
         Button3.Text = "Go to CRM URL"
         Button3.UseVisualStyleBackColor = True
@@ -133,9 +137,9 @@ Partial Class FrmMain
         ' 
         ' FrmMain
         ' 
-        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1206, 477)
+        ClientSize = New Size(1055, 358)
         Controls.Add(Button3)
         Controls.Add(btnOpenLocalFolder)
         Controls.Add(btnNewOpp)
@@ -146,6 +150,7 @@ Partial Class FrmMain
         Controls.Add(cboCriteria)
         Controls.Add(Label1)
         Controls.Add(cboOpps)
+        Margin = New Padding(3, 2, 3, 2)
         Name = "FrmMain"
         Text = "LPA Opportunity Mgr"
         ResumeLayout(False)

@@ -24,7 +24,7 @@ Partial Class frmNewOpp
     Private Sub InitializeComponent()
         Label1 = New Label()
         cboAccounts = New ComboBox()
-        Button1 = New Button()
+        btnNewAccount = New Button()
         Label2 = New Label()
         Label3 = New Label()
         txtFolderPath = New TextBox()
@@ -64,15 +64,15 @@ Partial Class frmNewOpp
         cboAccounts.Size = New Size(554, 23)
         cboAccounts.TabIndex = 1
         ' 
-        ' Button1
+        ' btnNewAccount
         ' 
-        Button1.Location = New Point(701, 29)
-        Button1.Margin = New Padding(3, 2, 3, 2)
-        Button1.Name = "Button1"
-        Button1.Size = New Size(112, 21)
-        Button1.TabIndex = 2
-        Button1.Text = "New Account..."
-        Button1.UseVisualStyleBackColor = True
+        btnNewAccount.Location = New Point(701, 29)
+        btnNewAccount.Margin = New Padding(3, 2, 3, 2)
+        btnNewAccount.Name = "btnNewAccount"
+        btnNewAccount.Size = New Size(112, 21)
+        btnNewAccount.TabIndex = 2
+        btnNewAccount.Text = "New Account..."
+        btnNewAccount.UseVisualStyleBackColor = True
         ' 
         ' Label2
         ' 
@@ -255,7 +255,7 @@ Partial Class frmNewOpp
         Controls.Add(txtFolderPath)
         Controls.Add(Label3)
         Controls.Add(Label2)
-        Controls.Add(Button1)
+        Controls.Add(btnNewAccount)
         Controls.Add(cboAccounts)
         Controls.Add(Label1)
         Margin = New Padding(3, 2, 3, 2)
@@ -267,7 +267,7 @@ Partial Class frmNewOpp
 
     Friend WithEvents Label1 As Label
     Friend WithEvents cboAccounts As ComboBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents btnNewAccount As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents txtFolderPath As TextBox
